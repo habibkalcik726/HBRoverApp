@@ -48,7 +48,8 @@ namespace HBRoverApp
                 Console.Write("Enter The First Position Information (exmp: 1 2 N):");
                 startDirections = Console.ReadLine().Trim().Split(' ');
                 //Console.WriteLine("The Rovers Position: " + Convert.ToInt32(startDirections[0]) + " " + Convert.ToInt32(startDirections[1]) + " " + startDirections[2]);
-
+                if (startDirections.Count() != 3)
+                    continue;
                 //Get direction from Char
                 rover.Direction = (Directions)Char.Parse(startDirections[2]);
 
@@ -79,7 +80,7 @@ namespace HBRoverApp
                 //Get The Movement Commands
                 Console.Write("Enter The Movement Commands:");
                 var command = Console.ReadLine().Replace(" ", "").ToUpper();
-
+                var acceptedCommand = "";
                 bool exitloop = false;
                 foreach (var item in command)
                 {
@@ -91,12 +92,15 @@ namespace HBRoverApp
                             {
                                 exitloop = true;
                             }
+                            acceptedCommand = acceptedCommand + item;
                             break;
                         case 'L':
                             rover.TurnLeft();
+                            acceptedCommand = acceptedCommand + item;
                             break;
                         case 'R':
                             rover.TurnRight();
+                            acceptedCommand = acceptedCommand + item;
                             break;
                         default://if the command is out of M ,L and R
                             Console.WriteLine($"Invalid Character {item}");
@@ -111,9 +115,12 @@ namespace HBRoverApp
                         break;
                     }
                 }
+
+                Console.WriteLine("Accepted Command:" + acceptedCommand);
+
                 //Print Position of Rover
                 if (!exitloop)
-                    Console.WriteLine("Position:" + rover.XPosition.ToString() + " " + rover.YPosition.ToString() + " " + rover.Direction);
+                Console.WriteLine("Position:" + rover.XPosition.ToString() + " " + rover.YPosition.ToString() + " " + rover.Direction);
                 Console.Write("Press Q to Finish or Press Enter to Continue for Another Rover: ");
                 var exitConfirm = Console.ReadLine();
 
